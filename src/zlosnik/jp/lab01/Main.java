@@ -2,26 +2,16 @@ package zlosnik.jp.lab01;
 
 public class Main {
     public static void main(String[] args) {
-        final int squareLength = 6;
-        String[][] square = new String[squareLength][squareLength];
+        SquareMaker maker = new SquareMaker(6);
+        Transcoder transcoder = new Transcoder();
+        String[][] square = maker.getSquare();
 
-        char letter = 'A';
-        for(int i = 0; i < square.length; i++){
-            for(int j = 0; j < square.length; j++){
-                square[i][j] = String.valueOf(letter);
-                if(letter == 'Z'){
-                    letter = 'A';
-                    continue;
-                }
-                letter++;
-            }
-        }
+        System.out.println("SQUARE:");
+        maker.printSquare(square);
 
-        for (int i = 0; i < square.length; i++) {
-            for (int j = 0; j < square.length; j++) {
-                System.out.print(square[i][j] + " ");
-            }
-            System.out.println();
-        }
+        String snippet = "AK";
+        int[][] indexes = transcoder.getLetterIndexes(square, snippet);
+        System.out.println("Index " + snippet.charAt(0) + ": " + "[" + indexes[0][0] + ", " + indexes[0][1] + "]");
+        System.out.println("Index " + snippet.charAt(1) + ": " + "[" + indexes[1][0] + ", " + indexes[1][1] + "]");
     }
 }
