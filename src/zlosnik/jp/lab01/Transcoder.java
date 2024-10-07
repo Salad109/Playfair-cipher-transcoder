@@ -37,34 +37,22 @@ public class Transcoder {
         boolean sameColumn = indexes[0][1] == indexes[1][1];
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
-        // Different rows and columns
-        if (!sameColumn & !sameRow) {
-            System.out.println("DIFFERENT EVERYTHING");
-            encodedSnippet = square[indexes[1][0]][indexes[0][0]] + square[indexes[0][1]][indexes[1][1]];
-            return encodedSnippet;
-        }
-
-        // Same rows
-        if (sameRow & !sameColumn) {
-            System.out.println("SAME ROW");
-            encodedSnippet = square[indexes[0][0]][indexes[0][1] + 1] + square[indexes[1][0]][indexes[1][1] + 1];
-            return encodedSnippet;
-        }
-
-        // Same columns
-        if (!sameRow & sameColumn) {
-            System.out.println("SAME COLUMN");
-            encodedSnippet = square[indexes[0][0]][indexes[0][1]] + square[indexes[1][0]][indexes[1][1]];
-            return encodedSnippet;
-        }
-
-        // Same letters
         if (sameRow & sameColumn) {
             System.out.println("SAME LETTERS");
             encodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
             return encodedSnippet;
+        } else if (sameColumn) {
+            System.out.println("SAME COLUMN");
+            encodedSnippet = square[(indexes[0][0] + 1) % square.length][indexes[0][1]] + square[(indexes[1][0] + 1) % square.length][indexes[1][1]];
+            return encodedSnippet;
+        } else if (sameRow) {
+            System.out.println("SAME ROW");
+            encodedSnippet = square[indexes[0][0]][(indexes[0][1] + 1) % square.length] + square[indexes[1][0]][(indexes[1][1] + 1) % square.length];
+            return encodedSnippet;
+        } else {
+            System.out.println("DIFFERENT EVERYTHING");
+            encodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
+            return encodedSnippet;
         }
-
-        return "XX";
     }
 }

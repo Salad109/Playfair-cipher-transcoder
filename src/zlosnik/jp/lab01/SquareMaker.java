@@ -17,8 +17,6 @@ public class SquareMaker {
         alphabet = new char[25];
         char letter = 'A';
         for (int i = 0; i < alphabet.length; i++) {
-            if (i == 23)
-                letter += 1; // skip X
             alphabet[i] = (char) (letter + i);
         }
 
