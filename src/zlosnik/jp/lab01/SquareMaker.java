@@ -45,17 +45,12 @@ public class SquareMaker {
         }
     }
 
-    /**
-     * Returns a randomly shuffled deep copy
-     **/
     public String[][] shuffleSquare(String[][] square) {
-        // Deep copy
         String[][] newSquare = new String[square.length][];
         for (int i = 0; i < square.length; i++) {
             newSquare[i] = Arrays.copyOf(square[i], square[i].length);
         }
 
-        // Shuffle
         for (int i = 0; i < newSquare.length; i++) {
             for (int j = 0; j < newSquare.length; j++) {
                 int randomNumber1 = rng.nextInt(newSquare.length);

@@ -1,7 +1,13 @@
 package zlosnik.jp.lab01;
 
 public class Transcoder {
-    public int[][] getLetterIndexes(String[][] square, String snippet) {
+    String[][] square;
+
+    Transcoder(String[][] square) {
+        this.square = square;
+    }
+
+    public int[][] getLetterIndexes(String snippet) {
         if (snippet.length() != 2) {
             throw new IllegalArgumentException("Snippet length must be 2.");
         }
@@ -31,9 +37,9 @@ public class Transcoder {
         throw new IllegalArgumentException("Failed to locate two letters in snippet.");
     }
 
-    public String snippetEncoder(String[][] square, String snippet) {
+    public String snippetEncoder(String snippet) {
         String encodedSnippet;
-        int[][] indexes = getLetterIndexes(square, snippet);
+        int[][] indexes = getLetterIndexes(snippet);
         boolean sameColumn = indexes[0][1] == indexes[1][1];
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
