@@ -61,4 +61,30 @@ public class Transcoder {
             return encodedSnippet;
         }
     }
+    public String snippetDecoder(String snippet) {
+        String decodedSnippet;
+        int[][] indexes = getLetterIndexes(snippet);
+        boolean sameColumn = indexes[0][1] == indexes[1][1];
+        boolean sameRow = indexes[0][0] == indexes[1][0];
+
+        if (sameRow & sameColumn) {
+            System.out.println("SAME LETTERS");
+            decodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
+            return decodedSnippet;
+        } else if (sameColumn) {
+            System.out.println("SAME COLUMN");
+            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] +
+                    square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
+            return decodedSnippet;
+        } else if (sameRow) {
+            System.out.println("SAME ROW");
+            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] +
+                    square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
+            return decodedSnippet;
+        } else {
+            System.out.println("DIFFERENT EVERYTHING");
+            decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
+            return decodedSnippet;
+        }
+    }
 }
