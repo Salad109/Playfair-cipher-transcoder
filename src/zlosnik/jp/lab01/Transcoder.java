@@ -7,9 +7,11 @@ import java.util.List;
 
 public class Transcoder {
     String[][] square;
+    List<Integer> spaceIndexes;
 
     Transcoder(String[][] square) {
         this.square = square;
+        spaceIndexes = new LinkedList<>();
     }
 
     public int[][] getLetterIndexes(String snippet) {
@@ -88,9 +90,12 @@ public class Transcoder {
 
     public String prepString(String string) {
         string = string.toUpperCase();
+
         StringBuilder newString = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) != ' ')
+            if (string.charAt(i) == ' ')
+                spaceIndexes.add(i);
+            else
                 newString.append(string.charAt(i));
 
             if (i < string.length() - 1 && string.charAt(i) == string.charAt(i + 1)) {
@@ -123,5 +128,26 @@ public class Transcoder {
         snippetList.add(snippet.toString());
         snippetList.removeFirst();
         return snippetList;
+    }
+
+    public List<String> snippetListEncoder(List<String> snippetList) {
+        List<String> encodedList = new LinkedList<>();
+        for (String snippet : snippetList) {
+            encodedList.add(snippetEncoder(snippet));
+        }
+        return encodedList;
+    }
+
+    public String snippetListToString(List<String> snippetList) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String snippet : snippetList) {
+            stringBuilder.append(snippet);
+        }
+        while(!spaceIndexes.isEmpty()){
+            int index = spaceIndexes.getLast();
+            spaceIndexes.removeLast();
+            stringBuilder.insert(index, " ");
+        }
+        return stringBuilder.toString();
     }
 }
