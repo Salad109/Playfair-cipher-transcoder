@@ -12,11 +12,7 @@ public class Main {
         System.out.println("SQUARE:");
         maker.printSquare(square);
 
-        // TODO Zła konwersja snippetów ( IW i JX źle )
-
-        // test(transcoder);
-
-        String string = "IW";
+        String string = "IR"; // TODO IR, IW
         System.out.println("Original string: " + string);
 
         string = transcoder.prepString(string);

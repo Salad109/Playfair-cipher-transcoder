@@ -78,11 +78,12 @@ public class Transcoder {
 
         if (snippet.length() == 3 && snippet.charAt(0) == snippet.charAt(2)) {
             return snippet.charAt(0) + snippet.substring(2, 3);
-        } else if (sameColumn) {
-            decodedSnippet = square[(indexes[0][0] - 1) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1) % square.length][indexes[1][1]];
+        }
+        if (sameColumn) {
+            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1  + square.length) % square.length][indexes[1][1]];
             return decodedSnippet;
         } else if (sameRow) {
-            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1) % square.length];
+            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1  + square.length) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1  + square.length) % square.length];
             return decodedSnippet;
         } else {
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
