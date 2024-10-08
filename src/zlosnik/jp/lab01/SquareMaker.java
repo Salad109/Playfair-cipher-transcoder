@@ -14,7 +14,7 @@ public class SquareMaker {
         this.squareLength = squareLength;
 
         // Build the alphabet
-        alphabet = new char[25];
+        alphabet = new char[26];
         char letter = 'A';
         for (int i = 0; i < alphabet.length; i++) {
             alphabet[i] = (char) (letter + i);
@@ -45,6 +45,7 @@ public class SquareMaker {
         }
     }
 
+    /*
     public String[][] shuffleSquare(String[][] square) {
         String[][] newSquare = new String[square.length][];
         for (int i = 0; i < square.length; i++) {
@@ -62,4 +63,5 @@ public class SquareMaker {
         }
         return newSquare;
     }
+    */
 }

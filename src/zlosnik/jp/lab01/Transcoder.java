@@ -15,11 +15,15 @@ public class Transcoder {
     }
 
     public int[][] getLetterIndexes(String snippet) {
-        if (snippet.length() != 2) {
+        String firstLetter, secondLetter;
+        if (snippet.length() == 3) { // AXA
+            firstLetter = snippet.substring(0, 1);
+            secondLetter = snippet.substring(2, 3);
+        } else if (snippet.length() != 2) {
             throw new IllegalArgumentException("Snippet length must be 2.");
         }
-        String firstLetter = snippet.substring(0, 1);
-        String secondLetter = snippet.substring(1, 2);
+        firstLetter = snippet.substring(0, 1);
+        secondLetter = snippet.substring(1, 2);
         int[][] index = new int[2][2];
         boolean foundFirst = false;
         boolean foundSecond = false;
@@ -50,6 +54,7 @@ public class Transcoder {
         boolean sameColumn = indexes[0][1] == indexes[1][1];
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
+
         if (sameRow & sameColumn) {
             encodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
             return encodedSnippet;
@@ -71,16 +76,13 @@ public class Transcoder {
         boolean sameColumn = indexes[0][1] == indexes[1][1];
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
-        if (sameRow & sameColumn) {
-            decodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
-            return decodedSnippet;
+        if (snippet.length() == 3 && snippet.charAt(0) == snippet.charAt(2)) {
+            return snippet.charAt(0) + snippet.substring(2, 3);
         } else if (sameColumn) {
-            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] +
-                    square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
+            decodedSnippet = square[(indexes[0][0] - 1) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1) % square.length][indexes[1][1]];
             return decodedSnippet;
         } else if (sameRow) {
-            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] +
-                    square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
+            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1) % square.length];
             return decodedSnippet;
         } else {
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
@@ -105,6 +107,7 @@ public class Transcoder {
 
         if (newString.length() % 2 == 1)
             newString.append("X");
+
         return newString.toString();
     }
 
@@ -143,11 +146,33 @@ public class Transcoder {
         for (String snippet : snippetList) {
             stringBuilder.append(snippet);
         }
-        while(!spaceIndexes.isEmpty()){
-            int index = spaceIndexes.getLast();
-            spaceIndexes.removeLast();
-            stringBuilder.insert(index, " ");
+
+        while (stringBuilder.indexOf("X") != -1 && stringBuilder.indexOf("X") != stringBuilder.length() - 1) {
+            int indexX = stringBuilder.indexOf("X");
+            if (stringBuilder.toString().charAt(indexX - 1) == stringBuilder.toString().charAt(indexX + 1))
+                stringBuilder.deleteCharAt(stringBuilder.indexOf("X"));
         }
+
+        if (!stringBuilder.isEmpty() && stringBuilder.toString().charAt(stringBuilder.length() - 1) == 'X')
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+        for (int index : spaceIndexes) {
+            try {
+                stringBuilder.insert(index, " ");
+            } catch (StringIndexOutOfBoundsException e) {
+                System.out.println("ERROR INDEX: " + index);
+            }
+        }
+
+
         return stringBuilder.toString();
+    }
+
+    public List<String> snippetListDecoder(List<String> snippetList) {
+        List<String> decodedList = new LinkedList<>();
+        for (String snippet : snippetList) {
+            decodedList.add(snippetDecoder(snippet));
+        }
+        return decodedList;
     }
 }
