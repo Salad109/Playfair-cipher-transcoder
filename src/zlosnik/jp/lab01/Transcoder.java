@@ -1,5 +1,10 @@
 package zlosnik.jp.lab01;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Transcoder {
     String[][] square;
 
@@ -44,23 +49,20 @@ public class Transcoder {
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
         if (sameRow & sameColumn) {
-            System.out.println("SAME LETTERS");
             encodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
             return encodedSnippet;
         } else if (sameColumn) {
-            System.out.println("SAME COLUMN");
             encodedSnippet = square[(indexes[0][0] + 1) % square.length][indexes[0][1]] + square[(indexes[1][0] + 1) % square.length][indexes[1][1]];
             return encodedSnippet;
         } else if (sameRow) {
-            System.out.println("SAME ROW");
             encodedSnippet = square[indexes[0][0]][(indexes[0][1] + 1) % square.length] + square[indexes[1][0]][(indexes[1][1] + 1) % square.length];
             return encodedSnippet;
         } else {
-            System.out.println("DIFFERENT EVERYTHING");
             encodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
             return encodedSnippet;
         }
     }
+
     public String snippetDecoder(String snippet) {
         String decodedSnippet;
         int[][] indexes = getLetterIndexes(snippet);
@@ -68,23 +70,58 @@ public class Transcoder {
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
         if (sameRow & sameColumn) {
-            System.out.println("SAME LETTERS");
             decodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
             return decodedSnippet;
         } else if (sameColumn) {
-            System.out.println("SAME COLUMN");
             decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] +
                     square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
             return decodedSnippet;
         } else if (sameRow) {
-            System.out.println("SAME ROW");
             decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] +
                     square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
             return decodedSnippet;
         } else {
-            System.out.println("DIFFERENT EVERYTHING");
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
             return decodedSnippet;
         }
+    }
+
+    public String prepString(String string) {
+        string = string.toUpperCase();
+        StringBuilder newString = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) != ' ')
+                newString.append(string.charAt(i));
+
+            if (i < string.length() - 1 && string.charAt(i) == string.charAt(i + 1)) {
+                newString.append("X");
+            }
+        }
+
+        if (newString.length() % 2 == 1)
+            newString.append("X");
+        return newString.toString();
+    }
+
+    public List<String> stringSplitter(String str) {
+        List<String> snippetList = new LinkedList<>();
+        str = prepString(str);
+        StringCharacterIterator iterator = new StringCharacterIterator(str);
+        StringBuilder snippet = new StringBuilder();
+
+        char ch = iterator.current();
+        while (ch != CharacterIterator.DONE) {
+            if (iterator.getIndex() % 2 != 0) {
+                snippet.append(ch);
+            } else {
+                snippetList.add(snippet.toString());
+                snippet.delete(0, snippet.length());
+                snippet.append(ch);
+            }
+            ch = iterator.next();
+        }
+        snippetList.add(snippet.toString());
+        snippetList.removeFirst();
+        return snippetList;
     }
 }
