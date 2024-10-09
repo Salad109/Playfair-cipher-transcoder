@@ -12,7 +12,7 @@ public class Main {
         System.out.println("SQUARE:");
         maker.printSquare(square);
 
-        String string = "Lubie pic piiiwo kurwa xd"; // TODO Enkodując, litera może się zmienić w literę z kolejnego alfabetu, wtedy sie kurwa sypie
+        String string = "PIIWO XDD LUBIE PIC PIWO XDX"; // TODO x na końcu robi softlock
         System.out.println("Original string: " + string);
 
         string = transcoder.prepString(string);

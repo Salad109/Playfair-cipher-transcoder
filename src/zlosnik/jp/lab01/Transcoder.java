@@ -14,12 +14,9 @@ public class Transcoder {
         spaceIndexes = new LinkedList<>();
     }
 
-    public int[][] getLetterIndexes(String snippet) {
+    private int[][] getLetterIndexes(String snippet) {
         String firstLetter, secondLetter;
-        if (snippet.length() == 3) { // AXA
-            firstLetter = snippet.substring(0, 1);
-            secondLetter = snippet.substring(2, 3);
-        } else if (snippet.length() != 2) {
+        if (snippet.length() != 2) {
             throw new IllegalArgumentException("Snippet length must be 2.");
         }
         firstLetter = snippet.substring(0, 1);
@@ -80,12 +77,10 @@ public class Transcoder {
         }
         if (sameColumn) {
             // Move up in the same column
-            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] +
-                    square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
+            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
         } else if (sameRow) {
             // Move left in the same row
-            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] +
-                    square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
+            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
         } else {
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
         }
@@ -97,18 +92,15 @@ public class Transcoder {
 
         StringBuilder newString = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == ' ')
-                spaceIndexes.add(i);
-            else
-                newString.append(string.charAt(i));
+            if (string.charAt(i) == ' ') spaceIndexes.add(i);
+            else newString.append(string.charAt(i));
 
             if (i < string.length() - 1 && string.charAt(i) == string.charAt(i + 1)) {
                 newString.append("X");
             }
         }
 
-        if (newString.length() % 2 == 1)
-            newString.append("X");
+        if (newString.length() % 2 == 1) newString.append("X");
 
         return newString.toString();
     }
@@ -148,24 +140,24 @@ public class Transcoder {
         for (String snippet : snippetList) {
             stringBuilder.append(snippet);
         }
+        System.out.println("Rebuilt snippet list: " + stringBuilder);
 
-        while (stringBuilder.indexOf("X") != -1 && stringBuilder.indexOf("X") != stringBuilder.length() - 1) {
-            int indexX = stringBuilder.indexOf("X");
-            if (stringBuilder.toString().charAt(indexX - 1) == stringBuilder.toString().charAt(indexX + 1))
-                stringBuilder.deleteCharAt(stringBuilder.indexOf("X"));
-        }
-
-        if (!stringBuilder.isEmpty() && stringBuilder.toString().charAt(stringBuilder.length() - 1) == 'X')
+        if (stringBuilder.charAt(stringBuilder.length() - 1) == 'X')
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        System.out.println("Trimmed snippet list: " + stringBuilder);
 
-        for (int index : spaceIndexes) {
-            try {
-                stringBuilder.insert(index, " ");
-            } catch (StringIndexOutOfBoundsException e) {
-                System.out.println("ERROR INDEX: " + index);
+        int length = stringBuilder.length() - 1;
+        for (int i = 1; i < length; i++) {
+            length = stringBuilder.length() - 1;
+            if (stringBuilder.charAt(i - 1) == stringBuilder.charAt(i + 1) && stringBuilder.charAt(i) == 'X') {
+                stringBuilder.deleteCharAt(i);
             }
         }
 
+        for (int index : spaceIndexes) {
+            stringBuilder.insert(index, " ");
+        }
+        System.out.println("Formatted snippet list: " + stringBuilder);
 
         return stringBuilder.toString();
     }
