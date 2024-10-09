@@ -1,5 +1,6 @@
 package zlosnik.jp.lab01;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class SquareMaker {
@@ -16,8 +17,7 @@ public class SquareMaker {
         char letter = 'A';
         for (int i = 0; i < alphabet.length; i++) {
             alphabet[i] = letter++;
-            if(letter == 'J')
-                letter++;
+            if (letter == 'J') letter++;
         }
 
 
@@ -25,8 +25,7 @@ public class SquareMaker {
         int alphabet_iterator = 0;
         for (int column = 0; column < squareLength; column++) {
             for (int row = 0; row < squareLength; row++) {
-                if (alphabet_iterator >= alphabet.length)
-                    alphabet_iterator = 0;
+                if (alphabet_iterator >= alphabet.length) alphabet_iterator = 0;
                 square[column][row] = String.valueOf(alphabet[alphabet_iterator++]);
             }
         }
@@ -37,6 +36,7 @@ public class SquareMaker {
     }
 
     public void printSquare(String[][] square) {
+        //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < square.length; i++) {
             for (int j = 0; j < square.length; j++) {
                 System.out.print(square[i][j] + " ");
@@ -45,8 +45,7 @@ public class SquareMaker {
         }
     }
 
-    /*
-    public String[][] shuffleSquare(String[][] square) {
+    public String[][] reshuffleSquare(String[][] square) {
         String[][] newSquare = new String[square.length][];
         for (int i = 0; i < square.length; i++) {
             newSquare[i] = Arrays.copyOf(square[i], square[i].length);
@@ -63,5 +62,4 @@ public class SquareMaker {
         }
         return newSquare;
     }
-    */
 }

@@ -1,7 +1,5 @@
 package zlosnik.jp.lab01;
 
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,11 +17,11 @@ public class Transcoder {
         if (snippet.length() == 2) {
             firstLetter = snippet.substring(0, 1);
             secondLetter = snippet.substring(1, 2);
-        }else if(snippet.length() == 3) {
+        } else if (snippet.length() == 3) {
             firstLetter = snippet.substring(0, 1);
             secondLetter = snippet.substring(2, 3);
-        }else{
-            throw new IllegalArgumentException("Snippet length must be 2.");
+        } else {
+            throw new IllegalArgumentException("Invalid snippet length.");
         }
         int[][] index = new int[2][2];
         boolean foundFirst = false;
@@ -49,7 +47,7 @@ public class Transcoder {
         throw new IllegalArgumentException("Failed to locate two letters in snippet.");
     }
 
-    public String snippetEncoder(String snippet) {
+    private String encodeSnippet(String snippet) {
         String encodedSnippet;
         int[][] indexes = getLetterIndexes(snippet);
         boolean sameColumn = indexes[0][1] == indexes[1][1];
@@ -70,7 +68,7 @@ public class Transcoder {
         }
     }
 
-    public String snippetDecoder(String snippet) {
+    private String decodeSnippet(String snippet) {
         String decodedSnippet;
         int[][] indexes = getLetterIndexes(snippet);
         boolean sameColumn = indexes[0][1] == indexes[1][1];
@@ -89,85 +87,18 @@ public class Transcoder {
         return decodedSnippet;
     }
 
-    public String prepString(String string) {
-        string = string.toUpperCase();
-
-        StringBuilder newString = new StringBuilder();
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == ' ') spaceIndexes.add(i);
-            else newString.append(string.charAt(i));
-
-            if (i < string.length() - 1 && string.charAt(i) == string.charAt(i + 1)) {
-                newString.append("X");
-            }
-        }
-
-        if (newString.length() % 2 == 1) newString.append("X");
-
-        return newString.toString();
-    }
-
-    public List<String> stringSplitter(String str) {
-        List<String> snippetList = new LinkedList<>();
-        str = prepString(str);
-        StringCharacterIterator iterator = new StringCharacterIterator(str);
-        StringBuilder snippetBuilder = new StringBuilder();
-
-        char ch = iterator.current();
-        while (ch != CharacterIterator.DONE) {
-            if (iterator.getIndex() % 2 != 0) {
-                snippetBuilder.append(ch);
-            } else {
-                snippetList.add(snippetBuilder.toString());
-                snippetBuilder.delete(0, snippetBuilder.length());
-                snippetBuilder.append(ch);
-            }
-            ch = iterator.next();
-        }
-        snippetList.add(snippetBuilder.toString());
-        snippetList.removeFirst();
-        return snippetList;
-    }
-
-    public List<String> snippetListEncoder(List<String> snippetList) {
+    public List<String> encodeSnippetList(List<String> snippetList) {
         List<String> encodedList = new LinkedList<>();
         for (String snippet : snippetList) {
-            encodedList.add(snippetEncoder(snippet));
+            encodedList.add(encodeSnippet(snippet));
         }
         return encodedList;
     }
 
-    public String snippetListToString(List<String> snippetList) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String snippet : snippetList) {
-            stringBuilder.append(snippet);
-        }
-        System.out.println("Rebuilt snippet list: \t" + stringBuilder);
-
-        if (stringBuilder.charAt(stringBuilder.length() - 1) == 'X')
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        System.out.println("Trimmed snippet list: \t" + stringBuilder);
-
-        int length = stringBuilder.length() - 1;
-        for (int i = 1; i < length; i++) {
-            length = stringBuilder.length() - 1;
-            if (stringBuilder.charAt(i - 1) == stringBuilder.charAt(i + 1) && stringBuilder.charAt(i) == 'X') {
-                stringBuilder.deleteCharAt(i);
-            }
-        }
-
-        for (int index : spaceIndexes) {
-            stringBuilder.insert(index, " ");
-        }
-        System.out.println("Formatted snippet list: \t" + stringBuilder);
-
-        return stringBuilder.toString();
-    }
-
-    public List<String> snippetListDecoder(List<String> snippetList) {
+    public List<String> decodeSnippetList(List<String> snippetList) {
         List<String> decodedList = new LinkedList<>();
         for (String snippet : snippetList) {
-            decodedList.add(snippetDecoder(snippet));
+            decodedList.add(decodeSnippet(snippet));
         }
         return decodedList;
     }
