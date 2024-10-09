@@ -12,7 +12,7 @@ public class Main {
         System.out.println("SQUARE:");
         maker.printSquare(square);
 
-        String string = "abc def xdl"; // TODO x na końcu
+        String string = "ABCXXDEFX";
         System.out.println("Original string: \t" + string);
 
         string = transcoder.prepString(string);

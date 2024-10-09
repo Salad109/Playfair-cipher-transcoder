@@ -16,11 +16,15 @@ public class Transcoder {
 
     private int[][] getLetterIndexes(String snippet) {
         String firstLetter, secondLetter;
-        if (snippet.length() != 2) {
+        if (snippet.length() == 2) {
+            firstLetter = snippet.substring(0, 1);
+            secondLetter = snippet.substring(1, 2);
+        }else if(snippet.length() == 3) {
+            firstLetter = snippet.substring(0, 1);
+            secondLetter = snippet.substring(2, 3);
+        }else{
             throw new IllegalArgumentException("Snippet length must be 2.");
         }
-        firstLetter = snippet.substring(0, 1);
-        secondLetter = snippet.substring(1, 2);
         int[][] index = new int[2][2];
         boolean foundFirst = false;
         boolean foundSecond = false;
@@ -76,10 +80,8 @@ public class Transcoder {
             return snippet.charAt(0) + snippet.substring(2, 3);
         }
         if (sameColumn) {
-            // Move up in the same column
             decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
         } else if (sameRow) {
-            // Move left in the same row
             decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
         } else {
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
@@ -109,20 +111,20 @@ public class Transcoder {
         List<String> snippetList = new LinkedList<>();
         str = prepString(str);
         StringCharacterIterator iterator = new StringCharacterIterator(str);
-        StringBuilder snippet = new StringBuilder();
+        StringBuilder snippetBuilder = new StringBuilder();
 
         char ch = iterator.current();
         while (ch != CharacterIterator.DONE) {
             if (iterator.getIndex() % 2 != 0) {
-                snippet.append(ch);
+                snippetBuilder.append(ch);
             } else {
-                snippetList.add(snippet.toString());
-                snippet.delete(0, snippet.length());
-                snippet.append(ch);
+                snippetList.add(snippetBuilder.toString());
+                snippetBuilder.delete(0, snippetBuilder.length());
+                snippetBuilder.append(ch);
             }
             ch = iterator.next();
         }
-        snippetList.add(snippet.toString());
+        snippetList.add(snippetBuilder.toString());
         snippetList.removeFirst();
         return snippetList;
     }
@@ -140,11 +142,11 @@ public class Transcoder {
         for (String snippet : snippetList) {
             stringBuilder.append(snippet);
         }
-        System.out.println("Rebuilt snippet list: " + stringBuilder);
+        System.out.println("Rebuilt snippet list: \t" + stringBuilder);
 
         if (stringBuilder.charAt(stringBuilder.length() - 1) == 'X')
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-        System.out.println("Trimmed snippet list: " + stringBuilder);
+        System.out.println("Trimmed snippet list: \t" + stringBuilder);
 
         int length = stringBuilder.length() - 1;
         for (int i = 1; i < length; i++) {
@@ -157,7 +159,7 @@ public class Transcoder {
         for (int index : spaceIndexes) {
             stringBuilder.insert(index, " ");
         }
-        System.out.println("Formatted snippet list: " + stringBuilder);
+        System.out.println("Formatted snippet list: \t" + stringBuilder);
 
         return stringBuilder.toString();
     }
