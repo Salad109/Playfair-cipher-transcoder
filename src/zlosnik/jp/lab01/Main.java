@@ -12,23 +12,23 @@ public class Main {
         System.out.println("SQUARE:");
         maker.printSquare(square);
 
-        String string = "PIIWO XDD LUBIE PIC PIWO XDX"; // TODO x na końcu robi softlock
-        System.out.println("Original string: " + string);
+        String string = "abc def xdl"; // TODO x na końcu
+        System.out.println("Original string: \t" + string);
 
         string = transcoder.prepString(string);
-        System.out.println("Prepped string: " + string);
+        System.out.println("Prepped string: \t" + string);
 
         List<String> snippetList = transcoder.stringSplitter(string);
-        System.out.println("Original snippet list: " + snippetList);
+        System.out.println("Original snippet list: \t" + snippetList);
 
         snippetList = transcoder.snippetListEncoder(snippetList);
-        System.out.println("Encoded snippet list: " + snippetList);
+        System.out.println("Encoded snippet list: \t" + snippetList);
 
         snippetList = transcoder.snippetListDecoder(snippetList);
-        System.out.println("Decoded snippet list: " + snippetList);
+        System.out.println("Decoded snippet list: \t" + snippetList);
 
         string = transcoder.snippetListToString(snippetList);
-        System.out.println("Decoded string: " + string);
+        System.out.println("Decoded string: \t" + string);
 
     }
 }
