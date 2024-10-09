@@ -54,7 +54,6 @@ public class Transcoder {
         boolean sameColumn = indexes[0][1] == indexes[1][1];
         boolean sameRow = indexes[0][0] == indexes[1][0];
 
-
         if (sameRow & sameColumn) {
             encodedSnippet = snippet.charAt(0) + "X" + snippet.charAt(1);
             return encodedSnippet;
@@ -80,15 +79,17 @@ public class Transcoder {
             return snippet.charAt(0) + snippet.substring(2, 3);
         }
         if (sameColumn) {
-            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] + square[(indexes[1][0] - 1  + square.length) % square.length][indexes[1][1]];
-            return decodedSnippet;
+            // Move up in the same column
+            decodedSnippet = square[(indexes[0][0] - 1 + square.length) % square.length][indexes[0][1]] +
+                    square[(indexes[1][0] - 1 + square.length) % square.length][indexes[1][1]];
         } else if (sameRow) {
-            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1  + square.length) % square.length] + square[indexes[1][0]][(indexes[1][1] - 1  + square.length) % square.length];
-            return decodedSnippet;
+            // Move left in the same row
+            decodedSnippet = square[indexes[0][0]][(indexes[0][1] - 1 + square.length) % square.length] +
+                    square[indexes[1][0]][(indexes[1][1] - 1 + square.length) % square.length];
         } else {
             decodedSnippet = square[indexes[1][0]][indexes[0][1]] + square[indexes[0][0]][indexes[1][1]];
-            return decodedSnippet;
         }
+        return decodedSnippet;
     }
 
     public String prepString(String string) {
