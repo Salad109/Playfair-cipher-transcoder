@@ -1,23 +1,23 @@
 package zlosnik.jp.lab01;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class SquareMaker {
-    final int squareLength;
+    final int squareLength = 5;
     String[][] square;
     char[] alphabet;
     Random rng;
 
-    SquareMaker(int squareLength) {
+    SquareMaker() {
         rng = new Random();
-        this.squareLength = squareLength;
 
         // Build the alphabet
         alphabet = new char[26];
         char letter = 'A';
         for (int i = 0; i < alphabet.length; i++) {
-            alphabet[i] = (char) (letter + i);
+            alphabet[i] = letter++;
+            if(letter == 'J')
+                letter++;
         }
 
 
