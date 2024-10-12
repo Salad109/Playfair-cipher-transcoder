@@ -45,7 +45,7 @@ public class Main {
     }
 
     private static void terminate(Scanner scanner) {
-        System.out.println("Closing program");
+        System.out.println("Closing program...");
         scanner.close();
     }
 
@@ -92,10 +92,10 @@ public class Main {
 
     private static void decode(StringHandler handler, Transcoder transcoder, Scanner scanner) {
         System.out.print("Provide a message to decode: ");
-        String input = scanner.nextLine();
-        if (input.isBlank()) {
-            throw new IllegalArgumentException("Invalid input");
-        }
+        String input;
+        do {
+            input = scanner.nextLine();
+        } while (input.isBlank());
 
         System.out.println("Original string:\t" + input);
 
@@ -113,11 +113,11 @@ public class Main {
     }
 
     private static void transcode(StringHandler handler, Transcoder transcoder, Scanner scanner) {
-        System.out.print("Provide string to transcode: ");
-        String input = scanner.nextLine();
-        if (input.isBlank()) {
-            throw new IllegalArgumentException("Invalid string input");
-        }
+        System.out.print("Provide a message to transcode: ");
+        String input;
+        do {
+            input = scanner.nextLine();
+        } while (input.isBlank());
 
         System.out.println("Original string:\t" + input);
 
