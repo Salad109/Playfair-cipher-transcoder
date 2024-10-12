@@ -1,6 +1,5 @@
 package zlosnik.jp.lab01;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class SquareMaker {
@@ -36,6 +35,7 @@ public class SquareMaker {
     }
 
     public void printSquare(String[][] square) {
+        System.out.println("SQUARE:");
         //noinspection ForLoopReplaceableByForEach
         for (int i = 0; i < square.length; i++) {
             for (int j = 0; j < square.length; j++) {
@@ -46,20 +46,15 @@ public class SquareMaker {
     }
 
     public String[][] reshuffleSquare(String[][] square) {
-        String[][] newSquare = new String[square.length][];
         for (int i = 0; i < square.length; i++) {
-            newSquare[i] = Arrays.copyOf(square[i], square[i].length);
-        }
-
-        for (int i = 0; i < newSquare.length; i++) {
-            for (int j = 0; j < newSquare.length; j++) {
-                int randomNumber1 = rng.nextInt(newSquare.length);
-                int randomNumber2 = rng.nextInt(newSquare.length);
-                String temp = newSquare[i][j];
-                newSquare[i][j] = newSquare[randomNumber1][randomNumber2];
-                newSquare[randomNumber1][randomNumber2] = temp;
+            for (int j = 0; j < square.length; j++) {
+                int randomNumber1 = rng.nextInt(square.length);
+                int randomNumber2 = rng.nextInt(square.length);
+                String temp = square[i][j];
+                square[i][j] = square[randomNumber1][randomNumber2];
+                square[randomNumber1][randomNumber2] = temp;
             }
         }
-        return newSquare;
+        return square;
     }
 }
